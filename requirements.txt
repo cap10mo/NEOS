@@ -1,0 +1,8 @@
+paramiko>=2.0.0
+scp>=0.10.0
+pyyaml
+pyserial
+textsfm
+argparse
+timeit
+time
