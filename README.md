@@ -17,7 +17,6 @@
     pip install -r requirements.txt
 
 # Basic usage
-
-   & python3 neos.py --help
-   usage: neos.py [-h] --hostfile HOSTFILE --vendor VENDOR --config CONFIG --log
+    & python3 neos.py --help
+    usage: neos.py [-h] --hostfile HOSTFILE --vendor VENDOR --config CONFIG --log
 
