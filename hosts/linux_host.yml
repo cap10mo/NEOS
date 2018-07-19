@@ -1,0 +1,16 @@
+---
+cisco1:
+  device_type: linux
+  ip: 12.0.0.1
+  username: admin
+  password: password
+cisco2:
+  device_type: linux 
+  ip: 12.0.0.2
+  username: admin
+  password: password
+cisco3:
+  device_type: linux
+  ip: 12.0.0.3
+  username: admin
+  password: password 

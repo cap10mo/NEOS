@@ -1,0 +1,3 @@
+ls -l
+pwd
+echo "lol"
