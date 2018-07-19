@@ -3,6 +3,3 @@ scp>=0.10.0
 pyyaml
 pyserial
 textsfm
-argparse
-timeit
-time
