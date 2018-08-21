@@ -88,7 +88,7 @@ all the vendors that Netmiko provides. Many thank's to Kirk Byers for his amazin
 
 # Tutorial
 
-### 1. Create hostfile in YAML format
+### 1. Create hostfile in YAML format (For the 'device_type' key, please refer to the config.py file)
     ---
     cisco1:
       device_type: cisco_ios
