@@ -29,6 +29,7 @@ args = parser.parse_args()
 DIR_HOSTS = "hosts/" + args.hostfile
 DIR_COMFILE = "commands/" + args.commands
 DIR_LOG = "logs/"
+LINUX = "linux"
 
 def log(result):
     '''
@@ -111,8 +112,9 @@ def command_exec():
                     h = layout.header_log(device_name)
                     current_log = current_log + h + output
             # NEOS will always save the configuration after command execution, then it disconnect from the device.
-            save_config = net_connect.save_config()
-            print("\n", save_config)
+            if y[device_name]['device_type'] != LINUX:
+                save_config = net_connect.save_config()
+                print("\n", save_config)
             net_connect.disconnect()
     except AuthenticationException:
         print(color.RED + "Authentication failed : the username and/or password are incorrect." + color.END)
