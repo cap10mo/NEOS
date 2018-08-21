@@ -1,7 +1,5 @@
 ![NEOS](readme/NEOS_logo.png)
 
-=======
-
 # Introduction
 
 « NEOS » is a free and open source tool to deploy configuration on your network equipments using SSH. The project is multi-vendor and support 
