@@ -1,4 +1,4 @@
-![NEOS](readme/NEOS_logo.gif)
+![NEOS](readme/NEOS_logo.png)
 
 =======
 
