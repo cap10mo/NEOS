@@ -1,2 +1,6 @@
-show version
-show vlan
+vlan 40
+name ADMINISTRATION
+vlan 50
+name STUDENTS
+vlan 60
+name VOIP

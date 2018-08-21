@@ -29,9 +29,6 @@ args = parser.parse_args()
 DIR_HOSTS = "hosts/" + args.hostfile
 DIR_COMFILE = "commands/" + args.commands
 DIR_LOG = "logs/"
-DIR_HOSTFILE= "hosts/"
-# Open host yaml file
-y = yaml.load(open(DIR_HOSTS))
 
 def log(result):
     '''
@@ -53,21 +50,28 @@ def check_files():
        Checks if the path to the hostfile and the command file exists.
        If it doesn't, the program will exit.
     '''
+
     if os.path.exists(DIR_HOSTS) is False:
         print(color.RED + "Error : Cannot find the hostfile specified : ", args.hostfile, "." + color.END)
         sys.exit()
     if os.path.exists(DIR_COMFILE) is False:
         print(color.RED + "Error : Cannot find the command file specified : ", args.commands, "." + color.END)
         sys.exit()
+    # Open host yaml file
+    global y
+    y = yaml.load(open(DIR_HOSTS))
 
 def check_hosts():
     '''
        Checks if the hosts are reachable and if SSH port is open.
     '''
+
     layout.header_host()
     for device_name in y:
         s = socket.socket()
         try:
+            # Add port number from config.py file to each host dictionnary.
+            y[device_name].update({'port':config.port})
             address = y[device_name]['ip']
             s.connect((address, config.port))
             print("[", device_name, "]" + color.GREEN +  " UP" + color.END)
@@ -90,25 +94,35 @@ def command_exec():
             current_device = y[device_name]
             layout.header_processing(device_name)
             net_connect = ConnectHandler(**current_device)
-            if args.normalmode is False:
-                net_connect.config_mode()
-            with open (DIR_COMFILE) as cf:
-                for command in cf:
-                    output = net_connect.send_command(command)
-                    print(output)
-                    if args.log is True:
-                        h = layout.header_log(device_name, command)
-                        current_log = current_log + h + output
-        net_connect.disconnect()
-    except NetMikoTimeoutException:
-        print(color.RED + "Connexion to ", line, " timed out. Please check the connectivity." + color.END)
+            # Use send_command method if the user wants to execute commands in normal mode.
+            if args.normalmode is True:
+                with open (DIR_COMFILE) as cf:
+                    for command in cf:
+                        output = net_connect.send_command(command)
+                        print(output)
+                        if args.log is True:
+                            h = layout.header_log(device_name)
+                            current_log = current_log + h + output
+            # Use send_config_from_file method if the user wants to execute command in configuration mode.
+            else:
+                output = net_connect.send_config_from_file(DIR_COMFILE)
+                print(output)
+                if args.log is True:
+                    h = layout.header_log(device_name)
+                    current_log = current_log + h + output
+            # NEOS will always save the configuration after command execution, then it disconnect from the device.
+            save_config = net_connect.save_config()
+            print("\n", save_config)
+            net_connect.disconnect()
     except AuthenticationException:
         print(color.RED + "Authentication failed : the username and/or password are incorrect." + color.END)
+    except SSHException:
+        print(color.RED + "SSH seems not to be enabled on this device." + color.END)
     finally:
         # Stop the timer.
         end = timer()
         # Display the time elapsed.
-        layout.time_elapsed(end)
+        layout.time_elapsed(end, start)
         # If the user have used '-l' argument, then we saved the output on a logfile.
         if args.log is True:
             log(current_log)

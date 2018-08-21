@@ -1,4 +1,13 @@
+'''
+    Configure the SSH port
+'''
+
 port = 22
+
+'''
+    The keys of this dictionnary are the supported device_type that can be found on
+    https://github.com/ktbyers/netmiko/blob/master/netmiko/ssh_dispatcher.py
+'''
 
 vendor = [
     'a10',
