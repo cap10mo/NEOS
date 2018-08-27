@@ -115,7 +115,7 @@ all the vendors that Netmiko provides. Many thank's to Kirk Byers for his amazin
     name VOIP
 
 ### 3. Execute 
-    & ./neos.py -hf cisco_host -c cisco_config -v cisco_ios -l
+    & ./neos.py -hf cisco_host -c cisco_config -l
 
 ### 4. Check the output
 
